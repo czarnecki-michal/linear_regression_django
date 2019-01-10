@@ -1,0 +1,17 @@
+{% if my_data_list %}
+<table>
+    <tr>
+        <th>No.</th>
+        <th>Worked Years</th>
+        <th>Salary Brutto</th>
+    </tr>
+    {% for record in my_data_list %}
+    <tr>
+        <td>{{ forloop.counter }}
+        <td>{{ record.workedYears }}</td>
+        <td>{{ record.salaryBrutto }}</td>
+    </tr>
+    {% endfor %}
+{% else %}
+    <p>No data available</p>
+{% endif %}
