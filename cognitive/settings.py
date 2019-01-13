@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'chartsjs',
     'projects.apps.ProjectsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
