@@ -1,0 +1,79 @@
+{% extends "projects/base.html" %}
+
+{% block content %}
+<div id="info">
+    <h3 class="title">Informacje</h3>
+    <h3 clas="subtitle">Cel podstawowy zadania: </h3>
+    <p>
+    Za pomocą języka Python napisać program który na podstawie danych wejściowych wykona przewidywanie (ang.
+    estimating) zarobków dla danych które nie są kompletne w zbiorze danych wejściowych.
+    Program powinien wykonać przewidywanie na podstawie danych które są kompletne.
+    Po obliczeniu prognozy prezentacja wyników za pomocą funkcji print w konsoli.
+    </p>
+</div>
+<h3 id="data" class="title">Dane</h3>
+<div class="columns">
+    <div class="column is-6">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Dane wejściowe
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    {% if train_data %}
+                    <table class="my_table">
+                        <tr>
+                            <th>No.</th>
+                            <th>Worked Years</th>
+                            <th>Salary Brutto</th>
+                        </tr>
+                        {% for record in train_data %}
+                            <tr>
+                                <td>{{ forloop.counter }}
+                                <td>{{ record.workedYears }}</td>
+                                <td>{{ record.salaryBrutto }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                        {% else %}
+                        <p>No data available</p>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column is-6">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Dane wynikowe
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    {% if test_data %}
+                    <table>
+                        <tr>
+                            <th>No.</th>
+                            <th>Worked Years</th>
+                            <th>Salary Brutto</th>
+                        </tr>
+                        {% for record in test_data %}
+                            <tr>
+                                <td>{{ forloop.counter }}
+                                <td>{{ record.workedYears }}</td>
+                                <td>{{ record.salaryBrutto }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                        {% else %}
+                        <p>No data available</p>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive - Intive Patronage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Intive Patronage</h1>
+                <h2 class="subtitle">Prezentacja wyników</h2>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-3 ">
+                <aside class="menu is-hidden-mobile">
+                    <p class="menu-label">Projekty</p>
+                    <ul class="menu-list">
+                        <li>
+                            <a href="regression" class="is-active">Regresja liniowa</a>
+                            <ul>
+                                <li><a href="#info">Informacje</a></li>
+                                <li><a href="#data">Dane</a></li>
+                                <li><a href="#charts">Wykresy</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+            <div class="column is-9">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

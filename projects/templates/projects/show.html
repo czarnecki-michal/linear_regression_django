@@ -1,11 +1,11 @@
-{% if my_data_list %}
+{% if train_data %}
 <table>
     <tr>
         <th>No.</th>
         <th>Worked Years</th>
         <th>Salary Brutto</th>
     </tr>
-    {% for record in my_data_list %}
+    {% for record in train_data %}
     <tr>
         <td>{{ forloop.counter }}
         <td>{{ record.workedYears }}</td>
