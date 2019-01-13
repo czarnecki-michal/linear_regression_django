@@ -1,6 +1,7 @@
 {% extends "projects/base.html" %}
 
 {% block content %}
+{% comment %} info {% endcomment %}
 <div id="info">
     <h3 class="title">Informacje</h3>
     <h3 clas="subtitle">Cel podstawowy zadania: </h3>
@@ -11,6 +12,7 @@
     Po obliczeniu prognozy prezentacja wyników za pomocą funkcji print w konsoli.
     </p>
 </div>
+{% comment %} dane {% endcomment %}
 <h3 id="data" class="title">Dane</h3>
 <div class="columns">
     <div class="column is-6">
@@ -21,9 +23,9 @@
                 </p>
             </header>
             <div class="card-content">
-                <div class="content">
+                <div class="content my-table">
                     {% if train_data %}
-                    <table class="my_table">
+                    <table>
                         <tr>
                             <th>No.</th>
                             <th>Worked Years</th>
@@ -38,7 +40,7 @@
                         {% endfor %}
                     </table>
                         {% else %}
-                        <p>No data available</p>
+                        <p>Błąd pobierania danych.</p>
                         {% endif %}
                 </div>
             </div>
@@ -52,7 +54,7 @@
                 </p>
             </header>
             <div class="card-content">
-                <div class="content">
+                <div class="content my-table">
                     {% if test_data %}
                     <table>
                         <tr>
@@ -69,11 +71,15 @@
                         {% endfor %}
                     </table>
                         {% else %}
-                        <p>No data available</p>
+                        <p>Błąd pobierania danych.</p>
                         {% endif %}
                 </div>
             </div>
         </div>
     </div>
+</div>
+{% comment %} wykresy {% endcomment %}
+<div id="charts" class="title">
+    <h1>Wykresy<h1>
 </div>
 {% endblock %}
