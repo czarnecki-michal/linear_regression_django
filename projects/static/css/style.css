@@ -1,12 +1,13 @@
 .my-table{
     max-height: 556px;
-    height:auto !important;
     height: 556px;
     overflow-y: scroll;
 }
 
 .my-footer{
-    height: 144px;
+    width: 1152px;
+    position:fixed;
+    bottom:0;
 }
 ::-webkit-scrollbar {
     width: 10px;
