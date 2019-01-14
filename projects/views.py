@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.views.generic import View
+from django.core import serializers
+
 
 from .models import Data
 
@@ -19,13 +21,14 @@ def info(request):
 def charts(request):
     return render(request, 'projects/charts.html')
 
-class ChartsView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'projects/charts.html')
-
 def get_data(request):
-    data = {
-        "sales": 100,
-        "customers": 10,
-    }
-    return JsonResponse(data)
+    worked_years = [data.workedYears for data in Data.objects.all()]
+    salary_brutto = [data.salaryBrutto for data in Data.objects.all()]
+    data = []
+
+    for val in range(len(worked_years)):
+        data.append({
+            'x': worked_years[val],
+            'y': salary_brutto[val],
+        })
+    return JsonResponse(data, safe=False)

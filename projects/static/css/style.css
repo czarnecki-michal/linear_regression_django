@@ -9,6 +9,10 @@
     position:fixed;
     bottom:0;
 }
+
+a:active{
+    background-color:black;
+}
 ::-webkit-scrollbar {
     width: 10px;
 }

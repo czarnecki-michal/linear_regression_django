@@ -8,7 +8,24 @@
         method: "GET",
         url: endpoint,
         success: function(data){
-            console.log(data)
+            train_data = data.slice(0, 23)
+            test_data = data.slice(23, 47)
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Dane wejściowe',
+                        data: train_data,
+                        backgroundColor: 'rgba(255, 99, 132)'
+                    },
+                    {
+                        label: 'Dane wynikowe',
+                        data: test_data,
+                        backgroundColor: 'rgba(0, 99, 132)'
+                    }],
+                },
+            });
         },
         error: function(error_data){
             console.log("Error")
@@ -21,7 +38,9 @@
 {% block content %}
 <div>
     <div>
-        <h1>Hello world</h1>
+        <h1>Wykresy: </h1>
     </div>
 </div>
+    <canvas id="myChart" width="250" height="150"></canvas>
+    
 {% endblock content %}
