@@ -8,21 +8,27 @@
         method: "GET",
         url: endpoint,
         success: function(data){
-            train_data = data.slice(0, 23)
-            test_data = data.slice(23, 47)
-            var ctx = document.getElementById("myChart");
-            var myChart = new Chart(ctx, {
+            train_data = data.slice(0, 47)
+            test_data = data.slice(47)
+            var ctx = document.getElementById("scatterChart");
+            var ctx2 = document.getElementById("barChart");
+            var scatterChart = new Chart(ctx, {
                 type: 'scatter',
                 data: {
                     datasets: [{
                         label: 'Dane wejściowe',
                         data: train_data,
-                        backgroundColor: 'rgba(255, 99, 132)'
+                        backgroundColor: 'rgba(255, 0, 72, 0.3)',
                     },
                     {
                         label: 'Dane wynikowe',
                         data: test_data,
-                        backgroundColor: 'rgba(0, 99, 132)'
+                        pointRadius: 4,
+                        pointBorderColor: 'rgba(15, 179, 255, 1)',
+                        pointBackgroundColor: 'rgba(15, 179, 255, 0.6)',
+                        borderColor: 'rgba(15, 179, 255, 0.2)',
+                        showLine: true,
+                        fill: false,
                     }],
                 },
             });
@@ -38,9 +44,9 @@
 {% block content %}
 <div>
     <div>
-        <h1>Wykresy: </h1>
+        <h1 class="title">Wykresy: </h1>
+        <canvas id="scatterChart" width="250" height="150"></canvas>
     </div>
 </div>
-    <canvas id="myChart" width="250" height="150"></canvas>
     
 {% endblock content %}

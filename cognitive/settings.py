@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'chartjs',
-    'rest_framework',
     'projects.apps.ProjectsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
