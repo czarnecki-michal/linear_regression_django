@@ -27,6 +27,8 @@ class LinearRegression:
         x - zmienne niezależne (features)
         y - zmienne zależne (labels)
         """
+        x = np.array(x)
+        y = np.array(y)
         x_mean, y_mean = np.mean(x), np.mean(y)
         xy_mean, x2_mean = np.mean(x*y), np.mean(x**2)
     
