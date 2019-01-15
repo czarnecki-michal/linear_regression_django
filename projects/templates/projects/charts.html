@@ -1,6 +1,4 @@
-{% extends "projects/base.html" %}
-
-<script><
+<script>
 {% block jquery %}
     var endpoint = '/api/data/'
 
@@ -11,7 +9,6 @@
             train_data = data.slice(0, 47)
             test_data = data.slice(47)
             var ctx = document.getElementById("scatterChart");
-            var ctx2 = document.getElementById("barChart");
             var scatterChart = new Chart(ctx, {
                 type: 'scatter',
                 data: {
@@ -41,12 +38,7 @@
 {% endblock %}
 </script>
 
-{% block content %}
-<div>
-    <div>
-        <h1 class="title">Wykresy: </h1>
-        <canvas id="scatterChart" width="250" height="150"></canvas>
-    </div>
-</div>
-    
-{% endblock content %}
+<h3 class="title">Wykresy: </h3>
+<canvas id="scatterChart" width="250" height="150"></canvas>
+
+

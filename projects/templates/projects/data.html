@@ -1,12 +1,4 @@
-{% extends "projects/base.html" %}
-
-{% block content %}
-{% comment %} dane {% endcomment %}
 <h3 id="data" class="title">Dane</h3>
-<div class="has-text-centered">
-    <a href="/api/calculate" class="button is-primary">Oblicz</a>
-    <a href="/api/reset" class="button is-primary">Resetuj</a>
-</div>
 <div class="columns">
     <div class="column is-6">
         <div class="card">
@@ -17,7 +9,6 @@
             </header>
             <div class="card-content">
                 <div class="content my-table">
-                    {% if train_data %}
                     <table>
                         <tr>
                             <th>No.</th>
@@ -32,9 +23,6 @@
                             </tr>
                         {% endfor %}
                     </table>
-                        {% else %}
-                        <p>Błąd pobierania danych.</p>
-                        {% endif %}
                 </div>
             </div>
         </div>
@@ -48,7 +36,6 @@
             </header>
             <div class="card-content">
                 <div class="content my-table">
-                    {% if test_data %}
                     <table>
                         <tr>
                             <th>No.</th>
@@ -63,12 +50,13 @@
                             </tr>
                         {% endfor %}
                     </table>
-                        {% else %}
-                        <p>Błąd pobierania danych.</p>
-                        {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
+<p>Aby obliczyć brakujące dane wybierz przycisk "Oblicz" aby zresetować wartości "Reset"</p>
+<div class="has-text-centered">
+    <a href="/api/calculate" class="button is-primary">Oblicz</a>
+    <a href="/api/reset" class="button is-primary">Resetuj</a>
+</div>
