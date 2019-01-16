@@ -1,13 +1,11 @@
 from django.urls import path
 
 from . import views
-from .views import get_data, calculate, reset#, ChartView
+from .views import calculate, reset, ProjectView
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('detail', views.detail, name='detail'),
-    path('api/data/', get_data, name="api-data"),
+    path('detail', ProjectView.as_view(), name='detail'),
     path('api/calculate', calculate, name="calculate"),
     path('api/reset', reset, name="reset"),
-    # path('api/test', ChartView.as_view(), name="test"),
 ]

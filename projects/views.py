@@ -1,94 +1,71 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, Http404
-from django.template import loader
+import json
+from django.shortcuts import render, reverse, redirect
+from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from django.views.generic import View
-from django.shortcuts import redirect
 from .modules.linear_regression import LinearRegression
-from django.views.generic import TemplateView
-# from .forms import ChartForm
-from pprint import pprint
+from .forms import ChartForm
 
-from .models import Data, ChartRange
+from .models import Data
+
 
 def index(request):
     return render(request, 'projects/index.html')
 
-def detail(request):
-    try:
-        train_data = Data.objects.all()[:47]
-        test_data = Data.objects.all()[47:]
-        return render(request, 'projects/detail.html', {'train_data': train_data, 'test_data': test_data})
-    except:
-        return render(request, 'projects/detail.html')
 
-# class ChartView(TemplateView):
-#     template_name = 'projects/detail.html'
+class ProjectView(View):
+    template_name = 'projects/detail.html'
+    train_data = Data.objects.filter(test=0)
+    test_data = Data.objects.filter(test=1)
 
-#     def get(self, request):
-#         form = ChartForm()
-#         return JsonResponse(ChartForm.salaryBrutto_max, safe=False)
-
-#     def post(self, request):
-#         form = ChartForm(request.POST)
-#         if form.is_valid():
-#             text1 = form.cleaned_data['workedYears_min']
-#             text2 = form.cleaned_data['workedYears_max']
-#             text3 = form.cleaned_data['salaryBrutto_min']
-#             text4 = form.cleaned_data['salaryBrutto_max']
-
-#         args = {'form': form, 'text1': text1}
-#         return redirect(detail)
-        
-
-def get_data(request):
-    if request.method == "POST":
-        workedYears_min = request.POST['workedYears_min']
-        workedYears_max = request.POST['workedYears_max']
-        salaryBrutto_min = request.POST['salaryBrutto_min']
-        salaryBrutto_max = request.POST['salaryBrutto_max']
-
-        if ChartRange.objects.all() is None:
-            q = ChartRange(
-                workedYears_min=workedYears_min,
-                workedYears_max=workedYears_max,
-                salaryBrutto_min=salaryBrutto_min,
-                salaryBrutto_max=salaryBrutto_max)
-            q.save()
-        else:
-            q = ChartRange.objects.get(pk=1)
-            q.workedYears_min, q.workedYears_max, q.salaryBrutto_min, q.salaryBrutto_max = workedYears_min, workedYears_max, salaryBrutto_min, salaryBrutto_max
-            q.save()
-        return redirect(detail)
-    else:
-        asdasdadadasd = request.GET['workedYears']
-        chart_range = ChartRange.objects.all().first()
-
-        data_range = Data.objects.filter(
-            workedYears__range=[chart_range.workedYears_min, chart_range.workedYears_max], salaryBrutto__range=[chart_range.salaryBrutto_min, chart_range.salaryBrutto_max]
-            )
-            
-        worked_years = [data.workedYears for data in data_range]
-        salary_brutto = [data.salaryBrutto for data in data_range]
-        test = [data.test for data in data_range]
-
+    def get_data(self):
         data = []
 
-        for val in range(len(worked_years)):
+        for val in self.train_data:
             data.append({
-                'x': worked_years[val],
-                'y': salary_brutto[val],
-                'test': test[val],
+                'x': val.workedYears,
+                'y': val.salaryBrutto,
+                'test': val.test,
             })
+        for val in self.test_data:
+            data.append({
+                'x': val.workedYears,
+                'y': val.salaryBrutto,
+                'test': val.test,
+            })
+        data = json.dumps(data)
+        return data
 
-        pprint(globals())
-        pprint(locals())
-        return JsonResponse(data, safe=False)
+    def get(self, request, *args, **kwargs):
+        form = ChartForm()
+        data = self.get_data()
+        try:
+            return render(request, 'projects/detail.html', {'train_data': self.train_data, 'test_data': self.test_data, 'data': data, 'form': form})
+        except:
+            return render(request, 'projects/detail.html')
+
+    def post(self, request, *args, **kwargs):
+        form = ChartForm(request.POST)
+        if form.is_valid():
+            workedYears_min = form.cleaned_data['workedYears_min']
+            workedYears_max = form.cleaned_data['workedYears_max']
+
+        self.train_data = Data.objects.filter(
+            test=0, 
+            workedYears__range=[workedYears_min, workedYears_max]
+            )
+        self.test_data = Data.objects.filter(
+            test=1, 
+            workedYears__range=[workedYears_min, workedYears_max]
+            )
+        data = self.get_data()
+        args = {'form': form, 'train_data': self.train_data, 'test_data': self.test_data, 'data': data}
+        return render(request, self.template_name, args)
 
 
 def calculate(request):
     reg = LinearRegression()
     data = Data.objects.all()
-    
+
     x = [row.workedYears for row in data]
     y = [row.salaryBrutto for row in data]
 
@@ -98,19 +75,16 @@ def calculate(request):
     reg.fit(train_X, train_y)
 
     for i in Data.objects.all():
-        if(i.salaryBrutto is None):
+        if i.salaryBrutto is None:
             i.salaryBrutto = reg.predict([i.workedYears])[0]
             i.save()
 
-    return redirect('/detail#data')
+    return redirect(reverse('detail'))
+
 
 def reset(request):
-    test_x = [row.workedYears for row in Data.objects.all()[47:]]
-    id = 48
-    for i in range(len(test_x)):
-        q = Data.objects.get(pk=id)
-        q.salaryBrutto = None
-        q.save()
-        id += 1
-
-    return redirect('/detail#data')
+    for i in Data.objects.all():
+        if i.test == 1:
+            i.salaryBrutto = None
+            i.save()
+    return redirect(reverse('detail'))

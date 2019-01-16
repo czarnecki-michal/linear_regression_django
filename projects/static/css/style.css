@@ -2,7 +2,9 @@
     position: fixed;
 }
 .my-table{
+    height: 556px;
     max-height: 556px;
+    min-height: 556px;
     overflow-y: scroll;
 }
 .my-footer{

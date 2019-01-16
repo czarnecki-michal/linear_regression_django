@@ -1,17 +1,20 @@
 <script>
-{% block jquery %}
-    var endpoint = '/api/data/'
+    {% block jquery %}
+    var endpoint = 'detail'
 
     $.ajax({
         method: "GET",
         url: endpoint,
         success: function(data){
+            data = "{{ data }}".replace(/&quot;/g,"\"")
+            data = JSON.parse(data)
             train_data = data.filter(function (el){
                 return el.test == 0;
             });
             test_data = data.filter(function (el){
                 return el.test == 1;
             })
+            console.log(train_data)
             var ctx = document.getElementById("scatterChart");
             var scatterChart = new Chart(ctx, {
                 type: 'scatter',
@@ -34,13 +37,14 @@
                         spanGaps: true,
                     }],
                 },
+                error: function(error_data){
+                    console.log("Error")
+                    console.log(error_data)
+                }
             });
-        },
-        error: function(error_data){
-            console.log("Error")
-            console.log(error_data)
         }
     })
+    
 {% endblock %}
 </script>
 
@@ -48,20 +52,9 @@
 <canvas id="scatterChart" width="250" height="150"></canvas>
 <div class="has-text-centered">
     <p>Wybierz zakres wyświetlania wykresu: </p>
-    <form action="/api/data/" method="POST">
+    <form action="/detail" method="POST">
         {% csrf_token %}
-        <div class="columns is-centered">            
-            <div class="column is-4">
-                <input class="input is-primary" type="number" placeholder="workedYears min" name="workedYears_min">
-                <input class="input is-primary" type="number" placeholder="workedYears max" name="workedYears_max">
-            </div>
-            <div class="column is-4">
-                <input class="input is-primary" type="number" placeholder="salaryBrutto min" name="salaryBrutto_min">
-                <input class="input is-primary" type="number" placeholder="salaryBrutto max" name="salaryBrutto_max">
-            </div>
-        </div>
+        {{ form.as_p }}
         <button class="button is-primary" type="submit">Wyślij</button>
     </form>
 </div>
-
-
