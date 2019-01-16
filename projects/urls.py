@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import get_data, calculate, reset
+from .views import get_data, calculate, reset#, ChartView
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('api/data/', get_data, name="api-data"),
     path('api/calculate', calculate, name="calculate"),
     path('api/reset', reset, name="reset"),
+    # path('api/test', ChartView.as_view(), name="test"),
 ]

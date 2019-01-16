@@ -6,11 +6,16 @@
         method: "GET",
         url: endpoint,
         success: function(data){
-            train_data = data.slice(0, 47)
-            test_data = data.slice(47)
+            train_data = data.filter(function (el){
+                return el.test == 0;
+            });
+            test_data = data.filter(function (el){
+                return el.test == 1;
+            })
             var ctx = document.getElementById("scatterChart");
             var scatterChart = new Chart(ctx, {
                 type: 'scatter',
+                display: true,
                 data: {
                     datasets: [{
                         label: 'Dane wejściowe',
@@ -26,6 +31,7 @@
                         borderColor: 'rgba(15, 179, 255, 0.2)',
                         showLine: true,
                         fill: false,
+                        spanGaps: true,
                     }],
                 },
             });
@@ -40,5 +46,22 @@
 
 <h3 class="title">Wykresy: </h3>
 <canvas id="scatterChart" width="250" height="150"></canvas>
+<div class="has-text-centered">
+    <p>Wybierz zakres wyświetlania wykresu: </p>
+    <form action="/api/data/" method="POST">
+        {% csrf_token %}
+        <div class="columns is-centered">            
+            <div class="column is-4">
+                <input class="input is-primary" type="number" placeholder="workedYears min" name="workedYears_min">
+                <input class="input is-primary" type="number" placeholder="workedYears max" name="workedYears_max">
+            </div>
+            <div class="column is-4">
+                <input class="input is-primary" type="number" placeholder="salaryBrutto min" name="salaryBrutto_min">
+                <input class="input is-primary" type="number" placeholder="salaryBrutto max" name="salaryBrutto_max">
+            </div>
+        </div>
+        <button class="button is-primary" type="submit">Wyślij</button>
+    </form>
+</div>
 
 

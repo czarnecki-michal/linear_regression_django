@@ -4,8 +4,7 @@ from django.template import loader
 from django.views.generic import View
 from django.shortcuts import redirect
 from .modules.linear_regression import LinearRegression
-from django.views.generic import TemplateView
-# from .forms import ChartForm
+from django.db.models import Q
 from pprint import pprint
 
 from .models import Data, ChartRange
@@ -21,26 +20,9 @@ def detail(request):
     except:
         return render(request, 'projects/detail.html')
 
-# class ChartView(TemplateView):
-#     template_name = 'projects/detail.html'
-
-#     def get(self, request):
-#         form = ChartForm()
-#         return JsonResponse(ChartForm.salaryBrutto_max, safe=False)
-
-#     def post(self, request):
-#         form = ChartForm(request.POST)
-#         if form.is_valid():
-#             text1 = form.cleaned_data['workedYears_min']
-#             text2 = form.cleaned_data['workedYears_max']
-#             text3 = form.cleaned_data['salaryBrutto_min']
-#             text4 = form.cleaned_data['salaryBrutto_max']
-
-#         args = {'form': form, 'text1': text1}
-#         return redirect(detail)
-        
-
 def get_data(request):
+    pprint(globals())
+    pprint(locals())
     if request.method == "POST":
         workedYears_min = request.POST['workedYears_min']
         workedYears_max = request.POST['workedYears_max']
@@ -60,7 +42,6 @@ def get_data(request):
             q.save()
         return redirect(detail)
     else:
-        asdasdadadasd = request.GET['workedYears']
         chart_range = ChartRange.objects.all().first()
 
         data_range = Data.objects.filter(
@@ -80,8 +61,6 @@ def get_data(request):
                 'test': test[val],
             })
 
-        pprint(globals())
-        pprint(locals())
         return JsonResponse(data, safe=False)
 
 
