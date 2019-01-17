@@ -54,7 +54,7 @@ TODO
 Dane prezentowane są w formie dynamicznie wyświetlanej tabeli utworzonej
 przy wykorzystaniu instrukcji ``<table>, <tr>, <td>`` itd.
 
-.. figure:: :tabela.png
+.. figure:: tabela.png
    :alt: tabela.png
 
    tabela.png
