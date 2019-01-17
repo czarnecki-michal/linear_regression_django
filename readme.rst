@@ -138,7 +138,7 @@ Klasa: linear\_regression.LinearRegression
    ::
 
        paramerty: X - lista, treningowy zbiór danych 
-              y - lista, wynikowy zbiór danych
+                    y - lista, wynikowy zbiór danych
 
 ``calculate_error(y, y_pred)``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -148,7 +148,7 @@ Klasa: linear\_regression.LinearRegression
    ::
 
        parametry: y - rzeczywista wartość zmiennej Y 
-              y - wartość teoretyczna (przewidywana) zmiennej
+                    y - wartość teoretyczna (przewidywana) zmiennej
        zwraca:    współczynnik determinacji
 
 ``predict(X)``
