@@ -1,25 +1,14 @@
-.my-head{
-    position: fixed;
-}
 .my-table{
     height: 556px;
     max-height: 556px;
     min-height: 556px;
     overflow-y: scroll;
 }
-.my-footer{
-    width: 1152px;
-    position:fixed;
-    bottom:0;
-}
-.my-sidebar{
-    position: fixed;
-    height: 100%;
-    margin: 0px;  
-}
 
-.my-content{
-    margin-top: 157px;
+p {
+    text-indent: 20px;
+    line-height: 2;
+    text-align: justify;
 }
 
 a:active{

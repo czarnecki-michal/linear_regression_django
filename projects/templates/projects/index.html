@@ -2,6 +2,27 @@
 
 {% block content %}
 <div class="content">
-    <h1 class="title">Witaj</h1>
+    <h1 class="title">Aplikacja do zadania 2</h1>
+    <h2 class="subtitle">Opis:</h2>
+    <p>
+        Aplikacja wykonuje obliczenia brakujących wartości oraz prezentuje wyniki na stronie WWW przy użyciu frameworka Django.
+        Celem zadania było wykonanie aplikacji, która na podstawie danych wejściowych wykona przewidywanie zarobków dla danych,
+        które nie są kompletne oraz zaprezentowanie wyników na stronie WWW z wykorzystaniem frameworka Django.
+    </p>
+    <p>
+        Poniżej znajdują się odnośniki do pliku <strong>readme.rst</strong>, w którym dokładnie opisana jest funkcjonalność aplikacji oraz
+        <strong>requirements.txt</strong>, w którym znajdują się wymagane moduły do jej poprawnego działania.
+    </p>
+    <div class="has-text-centered">
+        <a href="/static/readme.rst" class="button is-primary">Plik readme.rst</a>
+        <a href="/static/requirements.txt" class="button is-primary">Plik requirements.txt</a>
+    </div>
+    {% if error %}
+        <div class="notification is-warning is-outlined">
+            <p>{{ error }}</p>
+            <p>Naciśnij przycisk, aby zaimportować dane do bazy</p>
+            <a href='/update-data' class="button is-danger is-outlined">+</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

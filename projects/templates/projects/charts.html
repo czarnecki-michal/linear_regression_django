@@ -48,13 +48,17 @@
 {% endblock %}
 </script>
 
-<h3 class="title">Wykresy: </h3>
+<h3 class="title">Wykres </h3>
+<p>
+    Wykres przedstawia otrzymane dane na wykresie. Kolorem czerwonym oznaczono dane treningowe, kolorem niebieskim dane
+    wyjściowe oraz linię regresji.
+</p>
 <canvas id="scatterChart" width="250" height="150"></canvas>
 <div class="has-text-centered">
-    <p>Wybierz zakres wyświetlania wykresu: </p>
+    <h4 class="subtitle">Poniżej można wybrać zakres wyświetlania wykresu</h3>
     <form action="/detail" method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form }}
         <button class="button is-primary" type="submit">Wyślij</button>
     </form>
 </div>

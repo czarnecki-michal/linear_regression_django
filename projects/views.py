@@ -5,13 +5,24 @@ from django.views.generic import View
 from .modules.linear_regression import LinearRegression
 from .forms import ChartForm
 from pprint import pprint
+import pandas as pd
+import os
 
 from .models import Data
 
 
 def index(request):
+    try:
+        a = Data.objects.get(pk=1)
+        return render(request, 'projects/index.html')
+    except:
+        module_dir = os.path.dirname(__file__)  # get current directory
+        file_path = os.path.join(module_dir, 'static\\salary.csv')
+        tmp_data = pd.read_csv(file_path)
+        error = "Błąd pobierania danych"
+        return render(request, 'projects/index.html', {'error': error})
     
-    return render(request, 'projects/index.html')
+    
 
 
 class ProjectView(View):
@@ -40,11 +51,13 @@ class ProjectView(View):
 
     def get(self, request, *args, **kwargs):
         form = ChartForm()
-        data = self.get_data()
         try:
+            data = self.get_data()
             return render(request, 'projects/detail.html', {'train_data': self.train_data, 'test_data': self.test_data, 'data': data, 'form': form})
         except:
-            return render(request, 'projects/detail.html')
+            return redirect('index')
+
+
 
     def post(self, request, *args, **kwargs):
         form = ChartForm(request.POST)
