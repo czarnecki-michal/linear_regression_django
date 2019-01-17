@@ -4,11 +4,13 @@ from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirec
 from django.views.generic import View
 from .modules.linear_regression import LinearRegression
 from .forms import ChartForm
+from pprint import pprint
 
 from .models import Data
 
 
 def index(request):
+    
     return render(request, 'projects/index.html')
 
 
@@ -19,7 +21,8 @@ class ProjectView(View):
 
     def get_data(self):
         data = []
-
+        train_data = Data.objects.filter(test=0)
+        test_data = Data.objects.filter(test=1)
         for val in self.train_data:
             data.append({
                 'x': val.workedYears,
@@ -48,19 +51,19 @@ class ProjectView(View):
         if form.is_valid():
             workedYears_min = form.cleaned_data['workedYears_min']
             workedYears_max = form.cleaned_data['workedYears_max']
-
+        
         self.train_data = Data.objects.filter(
-            test=0, 
+            test=0,
             workedYears__range=[workedYears_min, workedYears_max]
             )
         self.test_data = Data.objects.filter(
-            test=1, 
+            test=1,
             workedYears__range=[workedYears_min, workedYears_max]
             )
         data = self.get_data()
         args = {'form': form, 'train_data': self.train_data, 'test_data': self.test_data, 'data': data}
-        return render(request, self.template_name, args)
 
+        return render(request, self.template_name, args)
 
 def calculate(request):
     reg = LinearRegression()
@@ -79,7 +82,7 @@ def calculate(request):
             i.salaryBrutto = reg.predict([i.workedYears])[0]
             i.save()
 
-    return redirect(reverse('detail'))
+    return redirect('detail')
 
 
 def reset(request):
@@ -87,4 +90,4 @@ def reset(request):
         if i.test == 1:
             i.salaryBrutto = None
             i.save()
-    return redirect(reverse('detail'))
+    return redirect('detail')

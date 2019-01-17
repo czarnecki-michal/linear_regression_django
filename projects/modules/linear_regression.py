@@ -36,6 +36,7 @@ class LinearRegression:
         b = y_mean - a * x_mean
     
         self.coef = [a, b]
+        return self
 
     def predict(self, x):
         """Przewiduje brakujące wartości na postawie danych wejściowych i zwraca listę
