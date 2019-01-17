@@ -54,10 +54,10 @@ TODO
 Dane prezentowane są w formie dynamicznie wyświetlanej tabeli utworzonej
 przy wykorzystaniu instrukcji ``<table>, <tr>, <td>`` itd.
 
-.. figure:: attachment:tabela.PNG
-   :alt: tabela.PNG
+.. figure:: :tabela.png
+   :alt: tabela.png
 
-   tabela.PNG
+   tabela.png
 
 4. Obliczanie brakujących wartości na podstawie otrzymanych danych za pomocą modułu linear\_regression
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -75,10 +75,10 @@ pozwala na proste i szybkie umieszczanie wykresów na stronie.
 Zamieszczony pod wykresem formularz ``POST`` umożliwia zmianę zakresu
 wyświetlania wykresu.
 
-.. figure:: attachment:wykres.PNG
-   :alt: wykres.PNG
+.. figure:: wykres.png
+   :alt: wykres.png
 
-   wykres.PNG
+   wykres.png
 
 Modele
 ~~~~~~
