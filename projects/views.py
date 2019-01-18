@@ -5,7 +5,6 @@ from django.views.generic import View
 from .modules.linear_regression import LinearRegression
 from .forms import ChartForm
 from pprint import pprint
-import pandas as pd
 import os
 
 from .models import Data
@@ -16,14 +15,8 @@ def index(request):
         a = Data.objects.get(pk=1)
         return render(request, 'projects/index.html')
     except:
-        module_dir = os.path.dirname(__file__)  # get current directory
-        file_path = os.path.join(module_dir, 'static\\salary.csv')
-        tmp_data = pd.read_csv(file_path)
         error = "Błąd pobierania danych"
         return render(request, 'projects/index.html', {'error': error})
-    
-    
-
 
 class ProjectView(View):
     template_name = 'projects/detail.html'
@@ -32,8 +25,6 @@ class ProjectView(View):
 
     def get_data(self):
         data = []
-        train_data = Data.objects.filter(test=0)
-        test_data = Data.objects.filter(test=1)
         for val in self.train_data:
             data.append({
                 'x': val.workedYears,
@@ -51,13 +42,13 @@ class ProjectView(View):
 
     def get(self, request, *args, **kwargs):
         form = ChartForm()
+        train_data = Data.objects.filter(test=0)
+        test_data = Data.objects.filter(test=1)
         try:
             data = self.get_data()
-            return render(request, 'projects/detail.html', {'train_data': self.train_data, 'test_data': self.test_data, 'data': data, 'form': form})
+            return render(request, 'projects/detail.html', {'train_data': train_data, 'test_data': test_data, 'data': data, 'form': form})
         except:
             return redirect('index')
-
-
 
     def post(self, request, *args, **kwargs):
         form = ChartForm(request.POST)
@@ -73,6 +64,7 @@ class ProjectView(View):
             test=1,
             workedYears__range=[workedYears_min, workedYears_max]
             )
+
         data = self.get_data()
         args = {'form': form, 'train_data': self.train_data, 'test_data': self.test_data, 'data': data}
 
@@ -104,3 +96,25 @@ def reset(request):
             i.salaryBrutto = None
             i.save()
     return redirect('detail')
+
+def insert(request):
+    import pandas as pd
+
+    module_dir = os.path.dirname(__file__)
+    file_path = os.path.join(module_dir, 'static\\salary.csv')
+    csv_file = pd.read_csv(file_path, sep=",")
+    
+    for i, row in csv_file.iterrows():
+        test = 0
+        if not pd.notnull(row['salaryBrutto']):
+            test = 1
+
+        data = Data(i, row['workedYears'], row['salaryBrutto'], test)
+
+        try:
+            data.save()
+            message = "Pomyślnie zasilono bazę"
+        except:
+            message = "Wystąpił błąd przy importowaniu danych z wiersza: {}".format(i)
+
+    return render(request, 'projects/index.html', {'message': message})

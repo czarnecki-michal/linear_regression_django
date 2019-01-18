@@ -18,10 +18,19 @@
         <a href="/static/requirements.txt" class="button is-primary">Plik requirements.txt</a>
     </div>
     {% if error %}
-        <div class="notification is-warning is-outlined">
-            <p>{{ error }}</p>
-            <p>Naciśnij przycisk, aby zaimportować dane do bazy</p>
-            <a href='/update-data' class="button is-danger is-outlined">+</a>
+        <div class="notification is-warning is-outlined warning">
+            <p>{{ error }}. Naciśnij przycisk, aby zaimportować dane do bazy</p>
+            <div class="has-text-centered">
+                <form action="/update" method="POST">
+                    {% csrf_token %}
+                    <button href="/update" class="button is-danger is-outlined">Importuj</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+    {% if message %}
+        <div class="notification is-warning is-outlined warning">
+            <p>{{ message }}</p>
         </div>
     {% endif %}
 </div>

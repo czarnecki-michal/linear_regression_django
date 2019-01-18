@@ -5,6 +5,10 @@
     overflow-y: scroll;
 }
 
+.warning{
+    margin: 70px;
+}
+
 p {
     text-indent: 20px;
     line-height: 2;
