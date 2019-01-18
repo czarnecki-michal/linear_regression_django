@@ -55,6 +55,9 @@ class ProjectView(View):
         if form.is_valid():
             workedYears_min = form.cleaned_data['workedYears_min']
             workedYears_max = form.cleaned_data['workedYears_max']
+        else:
+            workedYears_min = 0
+            workedYears_max = 100
         
         self.train_data = Data.objects.filter(
             test=0,

@@ -58,7 +58,7 @@
     <h4 class="subtitle">Poniżej można wybrać zakres wyświetlania wykresu</h3>
     <form action="/detail" method="POST">
         {% csrf_token %}
-        {{ form }}
-        <button class="button is-primary" type="submit">Wyślij</button>
+        {{ form.as_p }}
+        <button class="button is-primary" type="submit">Odśwież</button>
     </form>
 </div>
