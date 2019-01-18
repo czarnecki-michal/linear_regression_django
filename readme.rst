@@ -45,8 +45,8 @@ Domyślną bazą danych jest baza sqlite
 2. Import danych z pliku CSV do bazy sqlite
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TODO
-''''
+Aplikacja po naciśnięciu odpowiedniego przycisku, który wyświetli się jeżeli w tabeli nie ma żadnego rekordu,
+dokona importu danych z pliku 'salary.csv'.
 
 3. Prezentacja danych na stronie WWW za pomocą frameworka Django
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

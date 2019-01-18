@@ -4,8 +4,9 @@ from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirec
 from django.views.generic import View
 from .modules.linear_regression import LinearRegression
 from .forms import ChartForm
-from pprint import pprint
 import os
+import pandas as pd
+
 
 from .models import Data
 
@@ -101,19 +102,14 @@ def reset(request):
     return redirect('detail')
 
 def insert(request):
-    import pandas as pd
-
     module_dir = os.path.dirname(__file__)
     file_path = os.path.join(module_dir, 'static\\salary.csv')
-    csv_file = pd.read_csv(file_path, sep=",")
-    
+    csv_file = pd.read_csv(file_path, sep=",")  
     for i, row in csv_file.iterrows():
         test = 0
         if not pd.notnull(row['salaryBrutto']):
             test = 1
-
         data = Data(i, row['workedYears'], row['salaryBrutto'], test)
-
         try:
             data.save()
             message = "Pomyślnie zasilono bazę"
