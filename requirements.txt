@@ -1,5 +1,5 @@
 matplotlib==3.0.2
 numpy==1.15.4
 pandas==0.23.4
-Django==2.1.9
+Django==2.1.10
 django-chartjs==1.3
